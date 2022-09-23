@@ -1,0 +1,76 @@
+[
+  { "model": "inventario.categoria", "pk": 1, "fields": { "nombre": "Hogar" } },
+  {
+    "model": "inventario.categoria",
+    "pk": 2,
+    "fields": { "nombre": "Ensaladas" }
+  },
+  {
+    "model": "inventario.categoria",
+    "pk": 3,
+    "fields": { "nombre": "Vegetales" }
+  },
+  {
+    "model": "inventario.categoria",
+    "pk": 4,
+    "fields": { "nombre": "Salsas" }
+  },
+  { "model": "inventario.categoria", "pk": 5, "fields": { "nombre": "Nuevo" } },
+  {
+    "model": "inventario.producto",
+    "pk": 1,
+    "fields": {
+      "nombre": "Mayonesa",
+      "categoria": 4,
+      "description": "Mayonesa de 100gr",
+      "precio": "5.00",
+      "unidades": "u",
+      "disponible": true,
+      "created": "2022-09-22T01:29:40.204Z",
+      "updated": "2022-09-22T01:50:45.771Z"
+    }
+  },
+  {
+    "model": "inventario.producto",
+    "pk": 2,
+    "fields": {
+      "nombre": "Ketchup",
+      "categoria": 4,
+      "description": "Ketchup Kriss 100g",
+      "precio": "10.50",
+      "unidades": "u",
+      "disponible": true,
+      "created": "2022-09-22T01:35:39.331Z",
+      "updated": "2022-09-22T01:35:39.331Z"
+    }
+  },
+  {
+    "model": "inventario.producto",
+    "pk": 3,
+    "fields": {
+      "nombre": "Quinua",
+      "categoria": 1,
+      "description": "Cereal de quinua",
+      "precio": "10.00",
+      "unidades": "u",
+      "disponible": true,
+      "created": "2022-09-23T00:13:05.672Z",
+      "updated": "2022-09-23T00:13:05.672Z"
+    }
+  },
+  {
+    "model": "inventario.producto",
+    "pk": 4,
+    "fields": {
+      "nombre": "Tomate",
+      "categoria": 3,
+      "description": "Mayonesa en 100g",
+      "precio": "12.00",
+      "unidades": "u",
+      "disponible": true,
+      "created": "2022-09-23T00:13:43.164Z",
+      "updated": "2022-09-23T00:13:43.164Z"
+    }
+  }
+]
+

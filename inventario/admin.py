@@ -6,7 +6,7 @@ from .models import OrdenProducto
 
 
 class ProductoAdmin(admin.ModelAdmin):
-    list_display = ("nombre", "precio", "unidades")
+    list_display = ("nombre", "categoria", "precio", "unidades")
     ordering = ["precio"]
     search_fields = ["nombre"]
     list_filter = ("disponible","precio")
