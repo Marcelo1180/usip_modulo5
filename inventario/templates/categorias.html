@@ -1,4 +1,16 @@
 <h1>Categoria</h1>
+<form action="{% url 'categorias' %}" method="post">
+{% csrf_token %}
+<fieldset>
+    {% if error_message %}
+    <p class="error">{{error_message}}</p>
+    {% endif %}
+    <label for="nombre">Nombre</label>
+    <input type="text" name="nombre"/>
+    <br/>
+    <input type="submit" value="Enviar">
+</fieldset>
+</form>
 
 <ul>
     {% for categoria in categorias %}
