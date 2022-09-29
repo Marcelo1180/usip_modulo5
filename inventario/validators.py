@@ -6,3 +6,7 @@ def validar_par(value):
             '%(value)s no es un numero par',
             params={'value': value}
         )
+
+def validar_nombre_categoria(value):
+    if value == 'No permitido':
+        raise ValidationError("No es una opcion permitida")

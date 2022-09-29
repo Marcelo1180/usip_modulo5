@@ -1,9 +1,14 @@
 from django.shortcuts import render
 from django.shortcuts import get_object_or_404
 from django.http import HttpResponse
+from django.http import JsonResponse
+from rest_framework import viewsets
+from rest_framework import generics
+from rest_framework.decorators import api_view
 from .models import Categoria
 from .models import Producto
 from .forms import ProductoForm 
+from .serializers import CategoriaSerializer
 
 
 def index(request):
@@ -46,3 +51,29 @@ def productoFormView(request):
 
     return render(request, "form_productos.html", {"form": form})
 
+
+class CategoriaViewSet(viewsets.ModelViewSet):
+    queryset = Categoria.objects.all()
+    serializer_class = CategoriaSerializer
+
+class CategoriaCreateAndList(generics.CreateAPIView, generics.ListAPIView):
+    queryset = Categoria.objects.all()
+    serializer_class = CategoriaSerializer
+
+@api_view(["GET"])
+def categoria_contador(request):
+    """
+    Cantidad de items en el modelo categoria
+    """
+
+    try:
+        cantidad = Categoria.objects.count()
+        return JsonResponse(
+            {
+                "cantidad": cantidad
+            },
+            safe=False,
+            status=200,
+        )
+    except Exception as e:
+        return JsonResponse({"mensaje": str(e)}, status=400)
