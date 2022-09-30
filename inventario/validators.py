@@ -10,3 +10,7 @@ def validar_par(value):
 def validar_nombre_categoria(value):
     if value == 'No permitido':
         raise ValidationError("No es una opcion permitida")
+
+def validar_nombre_subject(value):
+    if value == 'Comida':
+        raise ValidationError("No es una opcion permitida")

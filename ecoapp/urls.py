@@ -24,6 +24,7 @@ from django.conf import settings
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('inventario/', include('inventario.urls')),
+    path("auth/", include("dj_rest_auth.urls")),
 ]
 
 schema_view = get_schema_view(

@@ -5,11 +5,22 @@ from django.http import JsonResponse
 from rest_framework import viewsets
 from rest_framework import generics
 from rest_framework.decorators import api_view
+from rest_framework.decorators import permission_classes
+from rest_framework.permissions import IsAuthenticated
 from .models import Categoria
 from .models import Producto
 from .forms import ProductoForm 
 from .serializers import CategoriaSerializer
+from .serializers import ProductoSerializer
+from .serializers import ReporteProductosSerializer
+from .serializers import ContactSerializer
+from .permissions import IsUserAlmacen
+from .utils import permission_required
+import logging
 
+
+logger = logging.getLogger(__name__)
+# logger = logging.getLogger("Nombre personalizado")
 
 def index(request):
     return HttpResponse("Hola Mundo")
@@ -55,17 +66,21 @@ def productoFormView(request):
 class CategoriaViewSet(viewsets.ModelViewSet):
     queryset = Categoria.objects.all()
     serializer_class = CategoriaSerializer
+    permission_classes = [IsUserAlmacen]
 
+@permission_classes([IsAuthenticated])
 class CategoriaCreateAndList(generics.CreateAPIView, generics.ListAPIView):
     queryset = Categoria.objects.all()
     serializer_class = CategoriaSerializer
 
 @api_view(["GET"])
+# @permission_classes([IsAuthenticated])
+@permission_required(["inventario.reporte_cantidad"])
 def categoria_contador(request):
     """
     Cantidad de items en el modelo categoria
     """
-
+    logger.info("Cantidad categoria mostada correctamente")
     try:
         cantidad = Categoria.objects.count()
         return JsonResponse(
@@ -77,3 +92,49 @@ def categoria_contador(request):
         )
     except Exception as e:
         return JsonResponse({"mensaje": str(e)}, status=400)
+
+@api_view(["GET"])
+def productos_tipo_unidad(request):
+    """
+    Productos filtrados por tipo de unidad
+    """
+    try:
+        productos = Producto.objects.filter(unidades='u')
+        return JsonResponse(
+            ProductoSerializer(productos, many=True).data,
+            safe=False,
+            status=200,
+        )
+    except Exception as e:
+        return JsonResponse({"mensaje": str(e)}, status=400)
+
+@api_view(["GET"])
+def reporte_productos(request):
+    """
+    Reporte de productos
+    """
+    try:
+        productos = Producto.objects.filter(unidades='u')
+        cantidad = productos.count()
+
+        return JsonResponse(
+            ReporteProductosSerializer({
+                "cantidad": cantidad,
+                "productos": productos
+            }).data,
+            safe=False,
+            status=200,
+        )
+    except Exception as e:
+        return JsonResponse({"mensaje": str(e)}, status=400)
+
+@api_view(["POST"])
+def enviar_mensaje(request):
+    """
+    Enviar mensajes via email
+    """
+    cs = ContactSerializer(data=request.data)
+    if cs.is_valid():
+        return JsonResponse({"mensaje": "Mensaje enviado satisfactoriamente"}, status=200)
+    else:
+        return JsonResponse({"mensaje": cs.errors}, status=200)
